@@ -12,55 +12,39 @@ class TrendAnalyzer:
                 "topic": "모르면 매달 10만원 손해 보는 알뜰 교통 & 금융 지원금 꿀팁",
                 "prompt": "A modern 3D glassmorphism illustration showing a glowing shield protecting money, credit card, and piggy bank, vibrant neon magenta and gold accents, 8k dark aesthetic",
                 "hook": "🚨 모르면 매달 최소 10만원 샌다! 2026 정부 지원금 & 환급금 손실 방지 꿀팁",
-                "tags": "#손해방지 #지원금환급 #금융꿀팁 #알뜰생활 #재테크정보 #아린에이전트"
-            },
-            {
-                "topic": "안 쓰는 자동결제 구독 안 꺼서 나가는 돈 막는 방법",
-                "prompt": "A modern futuristic 3D smartphone screen displaying subscription cancellation alerts, glowing red stop sign icon, high-tech dark theme, 8k render",
-                "hook": "⚠️ 매달 자동으로 내 통장에서 새어나가는 구독료 100% 차단하는 법",
-                "tags": "#구독료절약 #자동결제해지 #지출절감 #생활지혜 #돈아끼는법 #손실차단"
+                "tags": "#1분손해방지꿀팁 #손해방지 #지원금환급 #금융꿀팁 #알뜰생활 #재테크정보 #아린에이전트"
             }
         ],
         "morning_2": [
             {
+                "topic": "안 쓰는 자동결제 구독 안 꺼서 나가는 돈 막는 방법",
+                "prompt": "A modern futuristic 3D smartphone screen displaying subscription cancellation alerts, glowing red stop sign icon, high-tech dark theme, 8k render",
+                "hook": "⚠️ 매달 자동으로 내 통장에서 새어나가는 구독료 100% 차단하는 법",
+                "tags": "#1분손해방지꿀팁 #구독료절약 #자동결제해지 #지출절감 #생활지혜 #돈아끼는법"
+            }
+        ],
+        "lunch_1": [
+            {
                 "topic": "모르고 서명하면 큰일 나는 연봉 계약서 독소 조항 3가지",
                 "prompt": "An executive desk with a glowing contract document under a 3D magnifying glass, warning icon hovering in neon amber light, professional dark style, 8k",
                 "hook": "🛑 직장인 90%가 모르고 서명해서 손해 보는 근로/연봉계약서 독소 조항",
-                "tags": "#연봉계약서 #직장인손해방지 #근로기준법 #월급루팡 #노무꿀팁 #스마트직장인"
-            },
-            {
-                "topic": "연차 소멸로 돈 수십만원 날리지 않고 100% 챙기는 법",
-                "prompt": "A stylish 3D calendar with glowing green checkmarks and a golden coin stack, modern dark office setting, 8k digital render",
-                "hook": "💡 연말 소멸되는 연차 보상금 지켜내고 손해 안 보는 필수 꿀팁",
-                "tags": "#연차수당 #연말정산 #연차소멸방지 #직장인권리 #월급지키기 #칼퇴"
+                "tags": "#1분손해방지꿀팁 #연봉계약서 #직장인손해방지 #근로기준법 #월급루팡 #노무꿀팁"
             }
         ],
-        "afternoon_1": [
+        "evening_1": [
             {
                 "topic": "연말정산 13월의 폭탄 피하고 환급금 수십만원 더 받는 방법",
                 "prompt": "A glowing golden calculator on a dark glass table surrounded by tax deduction receipts, glowing green dollar arrows pointing up, 8k render",
                 "hook": "💸 모르면 세금 폭탄 맞는다! 연말정산 환급금 손실 차단 체크리스트",
-                "tags": "#연말정산 #세금절약 #환급금챙기기 #13월의월급 #세금폭탄피하기 #재테크"
-            },
-            {
-                "topic": "중고거래 및 부동산 계약 시 사기 당해 손해 보지 않는 법칙",
-                "prompt": "A secure digital padlock hovering over a smartphone screen displaying contract verification, neon cyan lighting, 3D glassmorphism, 8k",
-                "hook": "🔒 중고거래 & 이사 계약 시 1초 만에 전세/사기 손해 막는 법",
-                "tags": "#사기예방 #중고거래꿀팁 #계약전체크 #재산보호 #안전거래 #손해금지"
+                "tags": "#1분손해방지꿀팁 #연말정산 #세금절약 #환급금챙기기 #13월의월급 #세금폭탄피하기"
             }
         ],
-        "afternoon_2": [
+        "evening_2": [
             {
                 "topic": "스마트폰 개인정보 유출돼 스팸/스미싱 손해 막는 필수 설정",
                 "prompt": "A 3D smartphone wrapped in a glowing cyber security shield, neon blue and violet laser beams, dark cyber aesthetic, 8k",
                 "hook": "🛡️ 해커에게 내 명의 뚫려서 재산 손해 보지 않는 스마트폰 보안 설정",
-                "tags": "#스마트폰보안 #스미싱예방 #개인정보보호 #해킹방지 #보안꿀팁 #아린에이전트"
-            },
-            {
-                "topic": "인스타그램 계정 해킹당해서 팔로워/피드 날리는 것 막는 2차 인증",
-                "prompt": "An Instagram account profile page protected by a 3D metallic key lock, glowing magenta background, dark mode 3D render, 8k",
-                "hook": "🔐 순식간에 내 계정 날아가는 인스타그램 해킹 당해 손해보지 마세요!",
-                "tags": "#인스타해킹방지 #계정보안 #인스타그램꿀팁 #SNS마케팅 #피드보호 #보안인증"
+                "tags": "#1분손해방지꿀팁 #스마트폰보안 #스미싱예방 #개인정보보호 #해킹방지 #보안꿀팁"
             }
         ]
     }

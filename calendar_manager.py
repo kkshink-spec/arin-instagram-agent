@@ -10,9 +10,10 @@ class CalendarManager:
     """
     SLOTS = [
         {"id": "morning_1", "time": "07:30", "name": "오전 1차 (출근길 피크)"},
-        {"id": "morning_2", "time": "11:45", "name": "오전 2차 (점심 전 피크)"},
-        {"id": "afternoon_1", "time": "17:30", "name": "오후 1차 (퇴근길 피크)"},
-        {"id": "afternoon_2", "time": "21:15", "name": "오후 2차 (야간 골든타임)"}
+        {"id": "morning_2", "time": "08:00", "name": "오전 2차 (출근 직후)"},
+        {"id": "lunch_1", "time": "11:30", "name": "점심 (점심 전 피크)"},
+        {"id": "evening_1", "time": "17:30", "name": "오후 1차 (퇴근길 피크)"},
+        {"id": "evening_2", "time": "18:00", "name": "오후 2차 (퇴근 직후)"}
     ]
 
     def __init__(self):
