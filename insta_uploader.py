@@ -17,6 +17,9 @@ class InstaUploader:
         else:
             self.base_url = f"https://graph.facebook.com/{self.version}"
             self.acc_id = account_id
+            
+        # 60일 장기 토큰 무한 연장 (매 포스팅 실행 시 자동으로 만료일을 60일 뒤로 리셋)
+        self.refresh_token()
 
     def refresh_token(self) -> str:
         """
