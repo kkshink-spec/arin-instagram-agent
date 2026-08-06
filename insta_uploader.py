@@ -23,20 +23,39 @@ class InstaUploader:
 
     def refresh_token(self) -> str:
         """
-        Instagram Login API 60일 장기 토큰을 만료 전 자동으로 연장(Refresh)하는 메서드
+        Instagram Login API 60일 장기 토큰을 하루에 최대 1회만 안전하게 연장(Refresh)하는 메서드
+        (메타 보안 감지 방지: 24시간 간격 보호)
         """
         try:
+            # 24시간 간격 기록 파일
+            last_refresh_file = os.path.join(os.path.dirname(__file__), ".last_token_refresh")
+            now_ts = time.time()
+            
+            if os.path.exists(last_refresh_file):
+                try:
+                    with open(last_refresh_file, "r") as f:
+                        last_ts = float(f.read().strip())
+                        # 24시간(86400초) 이내 이미 갱신했으면 메타 요청 스킵 (보안 보호)
+                        if now_ts - last_ts < 86400:
+                            return self.token
+                except Exception:
+                    pass
+
             if self.token.startswith("IG"):
                 url = f"https://graph.instagram.com/refresh_access_token"
                 params = {
                     "grant_type": "ig_refresh_token",
                     "access_token": self.token
                 }
-                res = requests.get(url, params=params).json()
+                res = requests.get(url, params=params, timeout=10).json()
                 if "access_token" in res:
                     new_token = res["access_token"]
                     self.token = new_token
                     self.log(f"[+] Instagram 토큰 자동 갱신 완료! (새 만료 기간 60일 연장)")
+                    
+                    # 갱신 타임스탬프 기록
+                    with open(last_refresh_file, "w") as f:
+                        f.write(str(now_ts))
                     return new_token
         except Exception as e:
             self.log(f"[-] 토큰 갱신 경고: {e}")
