@@ -30,5 +30,14 @@ jobs:
           INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TZ: 'Asia/Seoul'
         run: |
           python auto_instagram_scheduler.py --once
+
+      - name: Commit and push updated calendar status
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          git add calendar_posts.json
+          git commit -m "Auto-update calendar post status [skip ci]" || echo "No changes to commit"
+          git push

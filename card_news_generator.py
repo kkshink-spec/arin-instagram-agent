@@ -9,70 +9,89 @@ class CardNewsGenerator:
     FONT_PATH = 'C:/Windows/Fonts/malgunbd.ttf'
 
     @classmethod
+    def wrap_text(cls, text: str, font: ImageFont.FreeTypeFont, max_width: int) -> str:
+        lines = []
+        for line in text.split('\n'):
+            words = line.split(' ')
+            current_line = []
+            for word in words:
+                test_line = ' '.join(current_line + [word])
+                bbox = font.getbbox(test_line)
+                w = bbox[2] - bbox[0]
+                if w <= max_width:
+                    current_line.append(word)
+                else:
+                    if current_line:
+                        lines.append(' '.join(current_line))
+                        current_line = [word]
+                    else:
+                        lines.append(word)
+                        current_line = []
+            if current_line:
+                lines.append(' '.join(current_line))
+        return '\n'.join(lines)
+
+    @classmethod
     def generate_carousel_slides(cls, slides_data: list, output_dir: str) -> list:
-        """
-        slides_data: [
-            {'title': '...', 'desc': '...', 'badge': '...'},
-            ...
-        ]
-        """
         os.makedirs(output_dir, exist_ok=True)
         total_slides = len(slides_data)
         generated_paths = []
 
-        font_title = ImageFont.truetype(cls.FONT_PATH, 56)
-        font_sub = ImageFont.truetype(cls.FONT_PATH, 34)
-        font_badge = ImageFont.truetype(cls.FONT_PATH, 28)
+        font_title = ImageFont.truetype(cls.FONT_PATH, 50)
+        font_sub = ImageFont.truetype(cls.FONT_PATH, 30)
+        font_badge = ImageFont.truetype(cls.FONT_PATH, 26)
 
         for idx, s in enumerate(slides_data, start=1):
             is_last = (idx == total_slides)
             
-            # 배경 이미지 (기본 고화질 3D 글래스모피즘 이미지)
             base_dir = os.path.dirname(__file__)
             bg_path = s.get('bg_path') or os.path.join(base_dir, 'default_card_news.png')
             
             img = Image.open(bg_path).convert('RGBA')
             width, height = img.size
             
-            # 반투명 다크 패널 생성
             overlay = Image.new('RGBA', img.size, (0, 0, 0, 0))
             draw = ImageDraw.Draw(overlay)
             
-            card_x1, card_y1 = 80, height // 4
-            card_x2, card_y2 = width - 80, height - 180
+            card_x1, card_y1 = 60, height // 5
+            card_x2, card_y2 = width - 60, height - 120
+            max_text_width = (card_x2 - card_x1) - 80
             
+            # 다크 네이비 / 글래스 패널
             draw.rounded_rectangle(
                 [card_x1, card_y1, card_x2, card_y2],
-                radius=30,
-                fill=(15, 23, 42, 215),
-                outline=(255, 255, 255, 45),
-                width=2
+                radius=32,
+                fill=(15, 23, 42, 225),
+                outline=(255, 255, 255, 60),
+                width=3
             )
             
             # 뱃지 (Badge)
-            badge_text = s.get('badge', f'SLIDE {idx:02d}')
+            badge_text = s.get('badge', f'1분 손해방지 꿀팁 STEP {idx:02d}')
             draw.rounded_rectangle(
-                [card_x1 + 40, card_y1 + 40, card_x1 + 380, card_y1 + 100],
-                radius=15,
-                fill=(193, 53, 132, 230)
+                [card_x1 + 40, card_y1 + 40, card_x1 + 480, card_y1 + 100],
+                radius=16,
+                fill=(193, 53, 132, 240)
             )
-            draw.text((card_x1 + 60, card_y1 + 52), badge_text, font=font_badge, fill=(255, 255, 255))
+            draw.text((card_x1 + 60, card_y1 + 53), badge_text, font=font_badge, fill=(255, 255, 255))
             
             # 제목 (Title)
-            title_text = s.get('title', '')
-            draw.text((card_x1 + 40, card_y1 + 140), title_text, font=font_title, fill=(255, 255, 255), spacing=15)
+            raw_title = s.get('title', '')
+            wrapped_title = cls.wrap_text(raw_title, font_title, max_text_width)
+            draw.text((card_x1 + 40, card_y1 + 130), wrapped_title, font=font_title, fill=(255, 255, 255), spacing=12)
             
             # 내용 (Description)
-            desc_text = s.get('desc', '')
-            draw.text((card_x1 + 40, card_y1 + 320), desc_text, font=font_sub, fill=(226, 232, 240), spacing=20)
+            raw_desc = s.get('desc', '')
+            wrapped_desc = cls.wrap_text(raw_desc, font_sub, max_text_width)
+            draw.text((card_x1 + 40, card_y1 + 310), wrapped_desc, font=font_sub, fill=(226, 232, 240), spacing=16)
             
-            # 하단 안내문구 (마지막 슬라이드인 경우 더보기 대신 저장/공유 유도)
+            # 하단 CTA
             if is_last:
-                footer_text = '💡 도움이 되셨다면 [저장(Bookmark)] & [공유] 클릭!'
-                footer_color = (74, 222, 128) # 밝은 에메랄드 그린
+                footer_text = '💡 유용한 꿀팁! 지금 [저장(Bookmark)] & [공유] 해두세요!'
+                footer_color = (74, 222, 128)
             else:
-                footer_text = '▶️ 다음 슬라이드로 넘겨서 더보기'
-                footer_color = (56, 189, 248) # 밝은 스카이 블루
+                footer_text = '▶️ 옆으로 넘겨서 다음 꿀팁 보기'
+                footer_color = (56, 189, 248)
 
             draw.text((card_x1 + 40, card_y2 - 70), footer_text, font=font_badge, fill=footer_color)
             
