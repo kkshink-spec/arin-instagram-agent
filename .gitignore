@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Uploads & Temporary Media
+uploads/
+*.mp4
+*.mp3
+*.wav
+
+# Environment variables & Secrets
+.env
+.env.*
+
+# IDE & System files
+.vscode/
+.idea/
+.DS_Store

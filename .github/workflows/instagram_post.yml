@@ -1,0 +1,33 @@
+name: Daily Automated Instagram Poster
+
+on:
+  schedule:
+    - cron: '30 22 * * *'  # 07:30 KST (22:30 UTC)
+    - cron: '45 2 * * *'   # 11:45 KST (02:45 UTC)
+    - cron: '30 8 * * *'   # 17:30 KST (08:30 UTC)
+    - cron: '15 12 * * *'  # 21:15 KST (12:15 UTC)
+  workflow_dispatch:
+
+jobs:
+  post_instagram:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Auto Scheduler Slot Post
+        env:
+          INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python auto_instagram_scheduler.py --once

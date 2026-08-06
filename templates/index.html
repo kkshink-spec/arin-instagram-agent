@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아린 인스타그램 자동 업로드 스튜디오 📸</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-gradient: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            --accent-purple: #c13584;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(131, 58, 180, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(253, 29, 29, 0.15) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+        }
+
+        .account-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-top: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .tab-group {
+            display: flex;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 6px;
+            border-radius: var(--radius-md);
+            gap: 6px;
+            margin-bottom: 1.8rem;
+            border: 1px solid var(--card-border);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            color: var(--text-sub);
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(193, 53, 132, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-sub);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px rgba(193, 53, 132, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .file-upload-box {
+            border: 2px dashed var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            text-align: center;
+            background: rgba(15, 23, 42, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-box:hover {
+            border-color: var(--accent-purple);
+            background: rgba(193, 53, 132, 0.05);
+        }
+
+        .file-upload-box input {
+            display: none;
+        }
+
+        .file-upload-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .file-name-preview {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            word-break: break-all;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius-md);
+            background: var(--accent-gradient);
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 25px -5px rgba(193, 53, 132, 0.4);
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(193, 53, 132, 0.5);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-card {
+            margin-top: 1.5rem;
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .status-card.info {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+        }
+
+        .status-card.success {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+
+        .status-card.error {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            color: #f87171;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Arin Instagram Studio</h1>
+            <p>공식 Graph API v23.0 기반 미디어 자동 게시 대시보드</p>
+            <div class="account-badge">
+                <span>🆔 Account ID:</span> <strong>{{ account_id }}</strong>
+            </div>
+        </div>
+
+        <!-- 탭 이동 -->
+        <div class="tab-group">
+            <button class="tab-btn active" onclick="switchTab('image')">📸 이미지 (Single)</button>
+            <button class="tab-btn" onclick="switchTab('reels')">🎥 릴스 (Reels)</button>
+            <button class="tab-btn" onclick="switchTab('carousel')">🎠 캐러셀 (Carousel)</button>
+            <button class="tab-btn" onclick="switchTab('calendar')">📅 30일 캘린더</button>
+        </div>
+
+        <div id="calendarView" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 style="font-size: 1.1rem; color: #38bdf8;">🤖 1개월 (1일 4회) 포스팅 스케줄 캘린더</h3>
+                <button onclick="loadCalendar()" style="background: rgba(255,255,255,0.1); border: 1px solid var(--card-border); color: #fff; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem;">🔄 새로고침</button>
+            </div>
+            <div id="calendarList" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;"></div>
+        </div>
+
+        <form id="uploadForm" onsubmit="submitForm(event)">
+            <input type="hidden" id="post_type" name="post_type" value="image">
+
+            <!-- 파일 선택 또는 URL 입력 -->
+            <div class="form-group">
+                <label id="mediaLabel">미디어 선택 (파일 업로드 또는 공개 URL)</label>
+                
+                <div class="file-upload-box" onclick="document.getElementById('fileInput').click()">
+                    <span class="file-upload-icon" id="uploadIcon">🖼️</span>
+                    <p id="uploadPrompt">클릭하여 내 컴퓨터에서 파일 선택 (또나 드래그앤드롭)</p>
+                    <div class="file-name-preview" id="fileNamePreview"></div>
+                    <input type="file" id="fileInput" name="file" onchange="handleFileSelect(this)">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>웹 공개 URL (선택 사항)</label>
+                <input type="text" id="media_url" name="media_url" placeholder="https://images.unsplash.com/photo-1534528741775-53994a69daeb...">
+            </div>
+
+            <!-- 캡션 입력 -->
+            <div class="form-group">
+                <label>게시물 캡션 (Caption & Hashtags)</label>
+                <textarea id="caption" name="caption" placeholder="안녕하세요! 오늘의 인스타그램 소식입니다 📸✨ #Instagram #AutoPost"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+                🚀 인스타그램에 업로드하기
+            </button>
+        </form>
+
+        <div class="status-card" id="statusCard"></div>
+    </div>
+
+    <script>
+        let currentTab = 'image';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.getElementById('post_type').value = tab;
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const mediaLabel = document.getElementById('mediaLabel');
+            const fileInput = document.getElementById('fileInput');
+            const uploadIcon = document.getElementById('uploadIcon');
+            const uploadPrompt = document.getElementById('uploadPrompt');
+
+            fileInput.value = '';
+            document.getElementById('fileNamePreview').innerText = '';
+
+            const uploadForm = document.getElementById('uploadForm');
+            const calendarView = document.getElementById('calendarView');
+
+            if (tab === 'calendar') {
+                uploadForm.style.display = 'none';
+                calendarView.style.display = 'block';
+                loadCalendar();
+                return;
+            } else {
+                uploadForm.style.display = 'block';
+                calendarView.style.display = 'none';
+            }
+        }
+
+        function handleFileSelect(input) {
+            const preview = document.getElementById('fileNamePreview');
+            if (input.files && input.files.length > 0) {
+                if (input.files.length === 1) {
+                    preview.innerText = `선택된 파일: ${input.files[0].name}`;
+                } else {
+                    preview.innerText = `선택된 파일: ${input.files.length}개 항목`;
+                }
+            } else {
+                preview.innerText = '';
+            }
+        }
+
+        async function submitForm(e) {
+            e.preventDefault();
+            
+            const form = document.getElementById('uploadForm');
+            const formData = new FormData(form);
+            const statusCard = document.getElementById('statusCard');
+            const submitBtn = document.getElementById('submitBtn');
+
+            statusCard.className = 'status-card info';
+            statusCard.style.display = 'block';
+            statusCard.innerHTML = '<span class="spinner"></span> 1/3 미디어 호스팅 및 인스타그램 컨테이너 생성 중...';
+            
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusCard.className = 'status-card success';
+                    const mediaId = data.result.id || 'N/A';
+                    statusCard.innerHTML = `🎉 <strong>게시 완료!</strong><br>성공적으로 인스타그램에 게시되었습니다. (Media ID: ${mediaId})`;
+                } else {
+                    statusCard.className = 'status-card error';
+                    statusCard.innerHTML = `❌ <strong>업로드 실패:</strong> ${data.message || JSON.stringify(data.error)}`;
+                }
+            } catch (err) {
+                statusCard.className = 'status-card error';
+                statusCard.innerHTML = `❌ <strong>서버 오류:</strong> ${err.message}`;
+            } finally {
+                submitBtn.disabled = false;
+            }
+        }
+
+        async function loadCalendar() {
+            const list = document.getElementById('calendarList');
+            list.innerHTML = '<div style="color: #94a3b8; font-size: 0.9rem;"><span class="spinner"></span> 캘린더 데이터를 불러오는 중...</div>';
+            
+            try {
+                const res = await fetch('/api/calendar');
+                const data = await res.json();
+                
+                if (data.success && data.posts) {
+                    list.innerHTML = '';
+                    data.posts.slice(0, 40).forEach(p => {
+                        const card = document.createElement('div');
+                        card.style.background = 'rgba(15, 23, 42, 0.6)';
+                        card.style.border = '1px solid rgba(255,255,255,0.08)';
+                        card.style.borderRadius = '10px';
+                        card.style.padding = '10px 14px';
+                        card.style.display = 'flex';
+                        card.style.justifyContent = 'space-between';
+                        card.style.alignItems = 'center';
+
+                        const statusBadge = p.status === 'PUBLISHED' 
+                            ? '<span style="color:#4ade80; font-size:0.75rem; background:rgba(74,222,128,0.1); padding:2px 8px; border-radius:12px;">✅ 게시완료</span>'
+                            : (p.status === 'FAILED' ? '<span style="color:#f87171; font-size:0.75rem; background:rgba(248,113,113,0.1); padding:2px 8px; border-radius:12px;">❌ 실패</span>'
+                            : '<span style="color:#38bdf8; font-size:0.75rem; background:rgba(56,189,248,0.1); padding:2px 8px; border-radius:12px;">⏳ 예약됨</span>');
+
+                        card.innerHTML = `
+                            <div>
+                                <div style="font-size:0.85rem; font-weight:600; color:#f8fafc;">
+                                    📅 ${p.date} [${p.slot_time}] - ${p.slot_name}
+                                </div>
+                                <div style="font-size:0.8rem; color:#94a3b8; margin-top:2px;">
+                                    ${p.topic || '트렌드 자동 탐색 예정'}
+                                </div>
+                            </div>
+                            <div>${statusBadge}</div>
+                        `;
+                        list.appendChild(card);
+                    });
+                }
+            } catch (err) {
+                list.innerHTML = `<div style="color:#f87171;">캘린더 데이터 로드 실패: ${err.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
