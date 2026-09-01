@@ -1,7 +1,7 @@
 import time
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from calendar_manager import CalendarManager
 from trend_analyzer import TrendAnalyzer
 from insta_uploader import InstaUploader
@@ -12,9 +12,11 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 from card_news_generator import CardNewsGenerator
 
+KST = timezone(timedelta(hours=9))
+
 class AutoInstagramScheduler:
     """
-    1개월간 하루 5회(07:30, 08:00, 11:30, 17:30, 18:00) 자동 포스팅 및 캘린더 관리 스케줄러
+    1개월간 하루 5회(07:30, 08:00, 11:30, 17:30, 18:00) 자동 포스팅 및 캘린더 관리 스케줄러 (KST 표준시 준수)
     """
     def __init__(self):
         self.cm = CalendarManager()
@@ -65,31 +67,38 @@ class AutoInstagramScheduler:
             print(f"[Scheduler Error] Failed to publish post ID {post_id}: {result}")
             return False
 
-from datetime import datetime, timezone, timedelta
-
     def run_check_cycle(self):
         """
-        현재 시각과 캘린더 슬롯을 비교하여 정해진 시간에 포스팅 실행 (KST 한국 표준시 기준)
+        KST(한국 표준시) 기준으로 현재 시각과 캘린더 슬롯을 비교하여 해당 시각 슬롯 1개만 안전하게 실행
         """
-        kst = timezone(timedelta(hours=9))
-        now = datetime.now(kst)
+        now = datetime.now(KST)
         current_date_str = now.strftime("%Y-%m-%d")
         current_time_str = now.strftime("%H:%M")
         
-        print(f"[Scheduler] Checking cycle at KST {current_date_str} {current_time_str}")
+        print(f"[Scheduler Check] Current KST Time: {current_date_str} {current_time_str}")
+        
         all_posts = self.cm.get_all_posts()
         
-        for p in all_posts:
-            if p["date"] == current_date_str and p["status"] == "SCHEDULED":
-                # 현재 시각이 슬롯 타임과 같거나 지난 경우 (미이행 슬롯) 실행
-                if current_time_str >= p["slot_time"]:
-                    self.execute_post_for_slot(p)
-                    # 깃허브 액션 등 일회성 조회의 경우 하나씩 연속 처리 또는 순차 수행
-                    break
+        # 오늘 날짜 예정된 포스트 추출
+        today_scheduled = [
+            p for p in all_posts 
+            if p["date"] == current_date_str and p["status"] == "SCHEDULED"
+        ]
+        
+        # 현재 시각 이하(도달한 시간대) 중 가장 최근 시각 슬롯 1개 선택
+        eligible = [p for p in today_scheduled if current_time_str >= p["slot_time"]]
+        
+        if eligible:
+            # 가장 시각 차이가 적은(가장 최근) 슬롯 1개 선택
+            target_post = max(eligible, key=lambda x: x["slot_time"])
+            print(f"[Scheduler] Target slot found: {target_post['id']} ({target_post['slot_name']} @ {target_post['slot_time']})")
+            self.execute_post_for_slot(target_post)
+        else:
+            print("[Scheduler] No matching scheduled slot for the current time window.")
 
     def start_loop(self):
-        print("🤖 [AutoInstagramScheduler] 30-Day Auto Instagram Scheduler Started!")
-        print("📅 Schedules: 07:30 | 11:45 | 17:30 | 21:15 (4 Posts Daily)")
+        print("🤖 [AutoInstagramScheduler] 30-Day Auto Instagram Scheduler Started (KST Mode)!")
+        print("📅 Schedules: 07:30 | 08:00 | 11:30 | 17:30 | 18:00 (5 Posts Daily)")
         
         while True:
             try:
@@ -105,3 +114,4 @@ if __name__ == "__main__":
         scheduler.run_check_cycle()
     else:
         scheduler.start_loop()
+

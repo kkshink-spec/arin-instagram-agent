@@ -1760,7 +1760,7 @@
     "slot_id": "morning_1",
     "slot_time": "07:30",
     "slot_name": "오전 1차 (출근길 피크)",
-    "status": "SCHEDULED",
+    "status": "CANCELLED",
     "topic": "",
     "caption": "",
     "media_url": "",
