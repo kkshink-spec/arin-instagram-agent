@@ -74,26 +74,19 @@ class CardNewsGenerator:
             card_x2, card_y2 = width - 50, height - 80
             max_text_width = (card_x2 - card_x1) - 80
             
-            # 네모 박스 배경을 바탕과 동일하게(투명) 처리
-            draw.rounded_rectangle(
-                [card_x1, card_y1, card_x2, card_y2],
-                radius=32,
-                fill=(0, 0, 0, 0),
-                outline=(0, 0, 0, 30),
-                width=3
-            )
+            # 네모 박스 삭제 요청에 의해 제거됨
             
-            # 뱃지 (Badge)
-            badge_text = s.get('badge', f'손해방지 꿀팁 STEP {idx:02d}').replace('1분 ', '')
-            draw.text((card_x1 + 40, card_y1 + 55), badge_text, font=font_badge, fill=(0, 0, 0))
+            # 뱃지 (Badge) 삭제 요청에 의해 렌더링 제거됨
+            # badge_text = s.get('badge', f'손해방지 꿀팁 STEP {idx:02d}').replace('1분 ', '')
+            # draw.text((card_x1 + 40, card_y1 + 55), badge_text, font=font_badge, fill=(0, 0, 0))
             
             # 제목 (Title)
             raw_title = s.get('title', '')
             wrapped_title = cls.wrap_text(raw_title, font_title, max_text_width)
-            draw.multiline_text((card_x1 + 40, card_y1 + 140), wrapped_title, font=font_title, fill=(0, 0, 0), spacing=20)
+            draw.multiline_text((card_x1 + 40, card_y1 + 60), wrapped_title, font=font_title, fill=(0, 0, 0), spacing=20)
             
             # 제목의 높이를 계산하여 내용(Description) Y좌표 결정
-            title_bbox = draw.multiline_textbbox((card_x1 + 40, card_y1 + 140), wrapped_title, font=font_title, spacing=20)
+            title_bbox = draw.multiline_textbbox((card_x1 + 40, card_y1 + 60), wrapped_title, font=font_title, spacing=20)
             print(f"Slide {idx} title_bbox:", title_bbox, "wrapped_title lines:", len(wrapped_title.split('\n')))
             desc_start_y = title_bbox[3] + 60 # 제목 아래 60px 간격 추가
             
@@ -113,7 +106,14 @@ class CardNewsGenerator:
                     footer_text = '옆으로 넘겨서 다음 꿀팁 보기 >'
                 footer_color = (0, 0, 0)
 
+            # 좌측 하단 CTA 텍스트
             draw.text((card_x1 + 40, card_y2 - 70), footer_text, font=font_badge, fill=footer_color)
+            
+            # 우측 하단 페이지 번호 (예: 1 / 5) - 마지막 페이지는 글씨 겹침 방지를 위해 생략
+            if not is_last:
+                page_text = f"{idx} / {total_slides}"
+                page_text_width = draw.textlength(page_text, font=font_badge)
+                draw.text((card_x2 - page_text_width - 40, card_y2 - 70), page_text, font=font_badge, fill=(100, 100, 100))
             
             final_img = Image.alpha_composite(img, overlay)
             out_filename = os.path.join(output_dir, f'carousel_slide_{idx}.png')
