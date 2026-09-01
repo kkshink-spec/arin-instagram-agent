@@ -1,12 +1,12 @@
 name: Daily Automated Instagram Poster
 
 on:
-  schedule:
-    - cron: '30 22 * * *'  # 07:30 KST (22:30 UTC)
-    - cron: '0 23 * * *'   # 08:00 KST (23:00 UTC)
-    - cron: '30 2 * * *'   # 11:30 KST (02:30 UTC)
-    - cron: '30 8 * * *'   # 17:30 KST (08:30 UTC)
-    - cron: '0 9 * * *'    # 18:00 KST (09:00 UTC)
+#  schedule:
+#    - cron: '30 22 * * *'  # 07:30 KST (22:30 UTC)
+#    - cron: '0 23 * * *'   # 08:00 KST (23:00 UTC)
+#    - cron: '30 2 * * *'   # 11:30 KST (02:30 UTC)
+#    - cron: '30 8 * * *'   # 17:30 KST (08:30 UTC)
+#    - cron: '0 9 * * *'    # 18:00 KST (09:00 UTC)
   workflow_dispatch:
 
 jobs:
@@ -30,14 +30,13 @@ jobs:
           INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          TZ: 'Asia/Seoul'
         run: |
           python auto_instagram_scheduler.py --once
 
-      - name: Commit and push updated calendar status
+      - name: Commit and Push Calendar State
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action Bot"
+          git config --local user.name "GitHub Action"
           git add calendar_posts.json
-          git commit -m "Auto-update calendar post status [skip ci]" || echo "No changes to commit"
-          git push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "auto: update instagram post calendar status [skip ci]" && git push)
+
