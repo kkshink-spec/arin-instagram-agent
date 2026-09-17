@@ -1,8 +1,8 @@
 name: Daily Automated Instagram Poster
 
 on:
-  schedule:
-    - cron: '0 9 * * *'    # 하루 1번, 18:00 KST (09:00 UTC)
+#   schedule:
+#     - cron: '0 9 * * *'    # 하루 1번, 18:00 KST (09:00 UTC)
   workflow_dispatch:
 
 jobs:
