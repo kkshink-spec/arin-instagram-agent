@@ -80,7 +80,7 @@ class InstaUploader:
         }
         
         start_time = time.time()
-        self.log(f"⏳ 컨테이너({container_id}) 처리 상태 확인 중...")
+        self.log(f" 컨테이너({container_id}) 처리 상태 확인 중...")
         
         while time.time() - start_time < timeout:
             res = requests.get(status_url, params=params).json()
@@ -99,8 +99,23 @@ class InstaUploader:
         self.log("[-] 컨테이너 처리 시간 초과 (Timeout)")
         return False
 
+    def ask_user_approval(self) -> bool:
+        import ctypes
+        # 0x4 = Yes/No, 0x20 = Question icon, 0x40000 = Topmost window
+        MB_YESNO = 0x4
+        MB_ICONQUESTION = 0x20
+        MB_TOPMOST = 0x40000
+        result = ctypes.windll.user32.MessageBoxW(
+            0,
+            "아린이가 생성한 게시물을 인스타그램에 발행하시겠습니까?\n(예: 업로드, 아니요: 취소)",
+            "인스타그램 자동 업로드 승인",
+            MB_YESNO | MB_ICONQUESTION | MB_TOPMOST
+        )
+        return result == 6  # 6 is IDYES
+
     def publish_container(self, creation_id: str) -> dict:
         self.log(f"[+] 게시물 최종 발행 요청 중... (Creation ID: {creation_id})")
+
         publish_url = f"{self.base_url}/{self.acc_id}/media_publish"
         publish_payload = {
             "creation_id": creation_id,
@@ -113,7 +128,7 @@ class InstaUploader:
             self.log(f"[-] 게시물 발행 실패: {publish_res['error']}")
         else:
             media_id = publish_res.get("id")
-            self.log(f"🎉 성공적으로 게시되었습니다! (Media ID: {media_id})")
+            self.log(f" 성공적으로 게시되었습니다! (Media ID: {media_id})")
             
         return publish_res
 
@@ -230,7 +245,7 @@ if __name__ == "__main__":
 
     # 테스트 데이터
     TEST_IMAGE_URL = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop"
-    TEST_CAPTION = "안녕하세요! 아린인스타그램에이전트 업로드 테스트입니다. 📸 #InstagramAPI #AutoPost #v23"
+    TEST_CAPTION = "안녕하세요! 아린인스타그램에이전트 업로드 테스트입니다.  #InstagramAPI #AutoPost #v23"
 
     uploader = InstaUploader(ACCOUNT_ID, ACCESS_TOKEN)
     
