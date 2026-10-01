@@ -1,4 +1,9 @@
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import sys
 
 if hasattr(sys.stdout, 'reconfigure'):
@@ -18,7 +23,7 @@ CAPTION = """🎙️ [음성 나레이션 탑재 릴스 포스팅 ⚡]
 #AI릴스 #릴스음성 #인스타그램릴스 #Reels #AI나레이션 #자동포스팅 #아린에이전트"""
 
 ACCOUNT_ID = os.getenv("INSTAGRAM_ACCOUNT_ID", "17841442055997951")
-ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN", "IGAAO3WRMmXXFBZAGFDNEg3ckdlcWZArSU04SmJybFBQR0htOERQMmw5dTZAmOXNDYk1WY1pabFBFUnp3VGpKVGxuQmJCaUdrX0MwV2JzOVR5SnRpZAm1kWkxCemJPM2lGMDJWbDZAsVkJtS0hQX2R6RzJpbHd5Q3FKTHJJeFJIWDNzQQZDZD")
+ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN")
 
 if __name__ == "__main__":
     print("[Reels Voice Test] 1. 음성 오디오 포함 9:16 MP4 비디오 합성 중...")

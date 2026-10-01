@@ -1,4 +1,9 @@
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import sys
 
 if hasattr(sys.stdout, 'reconfigure'):
@@ -37,7 +42,7 @@ CAPTION = """🚨 [조회수 폭발 이슈] 퇴근을 2시간 앞당기는 AI �
 #AI생성 #생산성꿀팁 #카드뉴스 #칼퇴치트키 #업무자동화 #직장인꿀팁 #AI툴추천 #생성형AI #아린에이전트 #인스타그램트렌드 #WorkSmart"""
 
 ACCOUNT_ID = os.getenv("INSTAGRAM_ACCOUNT_ID", "17841442055997951")
-ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN", "IGAAO3WRMmXXFBZAGFDNEg3ckdlcWZArSU04SmJybFBQR0htOERQMmw5dTZAmOXNDYk1WY1pabFBFUnp3VGpKVGxuQmJCaUdrX0MwV2JzOVR5SnRpZAm1kWkxCemJPM2lGMDJWbDZAsVkJtS0hQX2R6RzJpbHd5Q3FKTHJJeFJIWDNzQQZDZD")
+ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN")
 
 if __name__ == "__main__":
     uploader = InstaUploader(ACCOUNT_ID, ACCESS_TOKEN, verbose=False)

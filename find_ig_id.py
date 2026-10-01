@@ -1,6 +1,12 @@
+import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import requests
 
-token = "IGAAO3WRMmXXFBZAFlSS3FNS1Jna1V4VHhhSk5DMDhVNTl4bjNqcHJrTGUyS1pWNTJlM3lpQjdDc2QtSUR5YVVza21tN01HRFBXVXh6NmdEamNfMlE4aFQya2sxX2JmWVV2cE8zTzJSSFpOTmxoNzJ5ZAHNDS2FBMXB6S3JMZAWdCNAZDZD"
+token = os.getenv("INSTAGRAM_ACCESS_TOKEN")
 
 print("[1] 연결된 페이스북 페이지 및 인스타그램 비즈니스 계정 탐색 중...")
 url1 = f"https://graph.facebook.com/v23.0/me/accounts?fields=id,name,access_token,instagram_business_account{{id,username,name}}&access_token={token}"

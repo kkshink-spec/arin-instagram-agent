@@ -1,4 +1,9 @@
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import sys
 
 if hasattr(sys.stdout, 'reconfigure'):
@@ -35,7 +40,7 @@ CAPTION = """✨ [AI 이미지 생성 핵심 프롬프트 가이드 🎨]
 
 # 3. 업로더 객체 생성 및 포스팅
 ACCOUNT_ID = os.getenv("INSTAGRAM_ACCOUNT_ID", "27646020745040681")
-ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN", "IGAAO3WRMmXXFBZAFlkZA0ZA4cGpiOWYyZAlpBOWJEY0wzS1gyWE54N1RiNnlNQlhhdWg5RktFS1k5bGI3M1YwbXh2ZAFJGa2tfQk1ma3RqVTZAYOWRjVDlSd01pZAEdTUC1ldzdOV19tUTBxOVY4UU9zNmFQdDB3")
+ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN")
 
 if __name__ == "__main__":
     uploader = InstaUploader(ACCOUNT_ID, ACCESS_TOKEN, verbose=False)

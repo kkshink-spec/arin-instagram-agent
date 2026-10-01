@@ -1,8 +1,14 @@
+import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import requests
 import json
 import datetime
 
-token = "EAAQcbg84GnABSczDn8MOxEZBZBxuYbfLaVGonVSburg6SZCa92uF2ZClBhZAGPsX7xjmcctzaDTQ5ToiuVUNktrPLq3zddUaWmGlvxZC44vxDRyuE9PcyPvDZCn33U3mGxgzTh75vG4xIpYI3Fhal36nsvq0Xvl8SV8c4AjrOPTZAzHHU9ouDA2rRwa75HLI7iJ3"
+token = os.getenv("META_ACCESS_TOKEN") or os.getenv("INSTAGRAM_ACCESS_TOKEN")
 url = f"https://graph.facebook.com/v20.0/debug_token?input_token={token}&access_token={token}"
 res = requests.get(url).json()
 

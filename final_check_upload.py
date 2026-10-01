@@ -1,4 +1,9 @@
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import sys
 from card_news_generator import CardNewsGenerator
 from trend_analyzer import TrendAnalyzer
@@ -25,7 +30,7 @@ for idx, s in enumerate(slides, start=1):
 
 # 3. 인스타그램에 캐러셀 업로드 테스트
 account_id = os.getenv("INSTAGRAM_ACCOUNT_ID", "27646020745040681")
-access_token = os.getenv("INSTAGRAM_ACCESS_TOKEN", "IGAAO3WRMmXXFBZAFlkZA0ZA4cGpiOWYyZAlpBOWJEY0wzS1gyWE54N1RiNnlNQlhhdWg5RktFS1k5bGI3M1YwbXh2ZAFJGa2tfQk1ma3RqVTZAYOWRjVDlSd01pZAEdTUC1ldzdOV19tUTBxOVY4UU9zNmFQdDB3")
+access_token = os.getenv("INSTAGRAM_ACCESS_TOKEN")
 
 uploader = InstaUploader(account_id, access_token, verbose=True)
 print("\n🚀 [인스타그램 5장 캐러셀 최종 업로드 요청...]")

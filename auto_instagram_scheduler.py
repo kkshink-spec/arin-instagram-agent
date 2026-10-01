@@ -1,5 +1,10 @@
 import time
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import sys
 from datetime import datetime, timezone, timedelta
 from calendar_manager import CalendarManager
@@ -21,7 +26,7 @@ class AutoInstagramScheduler:
     def __init__(self):
         self.cm = CalendarManager()
         self.account_id = os.getenv("INSTAGRAM_ACCOUNT_ID", "27646020745040681")
-        self.access_token = os.getenv("INSTAGRAM_ACCESS_TOKEN", "IGAAO3WRMmXXFBZAFlkZA0ZA4cGpiOWYyZAlpBOWJEY0wzS1gyWE54N1RiNnlNQlhhdWg5RktFS1k5bGI3M1YwbXh2ZAFJGa2tfQk1ma3RqVTZAYOWRjVDlSd01pZAEdTUC1ldzdOV19tUTBxOVY4UU9zNmFQdDB3")
+        self.access_token = os.getenv("INSTAGRAM_ACCESS_TOKEN")
         self.uploader = InstaUploader(self.account_id, self.access_token, verbose=True)
 
     def execute_post_for_slot(self, post_item: dict):

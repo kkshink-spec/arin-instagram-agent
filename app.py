@@ -1,5 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import werkzeug.utils
 from insta_uploader import InstaUploader
 
@@ -12,7 +17,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # 환경 변수 또는 기본값
 ACCOUNT_ID = os.getenv("INSTAGRAM_ACCOUNT_ID", "27646020745040681")
-ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN", "IGAAO3WRMmXXFBZAFlkZA0ZA4cGpiOWYyZAlpBOWJEY0wzS1gyWE54N1RiNnlNQlhhdWg5RktFS1k5bGI3M1YwbXh2ZAFJGa2tfQk1ma3RqVTZAYOWRjVDlSd01pZAEdTUC1ldzdOV19tUTBxOVY4UU9zNmFQdDB3")
+ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN")
 
 uploader = InstaUploader(ACCOUNT_ID, ACCESS_TOKEN)
 

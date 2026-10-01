@@ -12,6 +12,7 @@ uploads/
 # Environment variables & Secrets
 .env
 .env.*
+!.env.example
 
 # IDE & System files
 .vscode/

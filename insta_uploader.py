@@ -1,6 +1,11 @@
 import requests
 import time
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 from image_hoster import LocalMediaHoster
 
 class InstaUploader:
@@ -226,7 +231,7 @@ class InstaUploader:
 if __name__ == "__main__":
     # 사용자의 Account ID 및 Access Token
     ACCOUNT_ID = os.getenv("INSTAGRAM_ACCOUNT_ID", "17841442055997951")
-    ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN", "IGAAO3WRMmXXFBZAGFDNEg3ckdlcWZArSU04SmJybFBQR0htOERQMmw5dTZAmOXNDYk1WY1pabFBFUnp3VGpKVGxuQmJCaUdrX0MwV2JzOVR5SnRpZAm1kWkxCemJPM2lGMDJWbDZAsVkJtS0hQX2R6RzJpbHd5Q3FKTHJJeFJIWDNzQQZDZD")
+    ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN")
 
     # 테스트 데이터
     TEST_IMAGE_URL = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop"

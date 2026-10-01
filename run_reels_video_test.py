@@ -1,4 +1,9 @@
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import sys
 
 if hasattr(sys.stdout, 'reconfigure'):
@@ -16,7 +21,7 @@ Instagram Graph API v23.0을 기반으로 자동 게시된 릴스(Reels) 동영�
 #AI릴스 #인스타그램릴스 #Reels #ReelsVideo #자동포스팅 #아린에이전트"""
 
 ACCOUNT_ID = os.getenv("INSTAGRAM_ACCOUNT_ID", "17841442055997951")
-ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN", "IGAAO3WRMmXXFBZAGFDNEg3ckdlcWZArSU04SmJybFBQR0htOERQMmw5dTZAmOXNDYk1WY1pabFBFUnp3VGpKVGxuQmJCaUdrX0MwV2JzOVR5SnRpZAm1kWkxCemJPM2lGMDJWbDZAsVkJtS0hQX2R6RzJpbHd5Q3FKTHJJeFJIWDNzQQZDZD")
+ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN")
 
 if __name__ == "__main__":
     uploader = InstaUploader(ACCOUNT_ID, ACCESS_TOKEN, verbose=True)

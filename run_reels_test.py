@@ -1,4 +1,9 @@
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import sys
 import requests
 
@@ -26,7 +31,7 @@ Gemini 3.1 TTS 음성 나레이션과 AI 9:16 비디오 엔진으로 100% 자동
 #AI릴스 #인스타그램릴스 #Reels #AI음성생성 #GeminiTTS #릴스자동화 #아린에이전트 #Shorts #ReelsInstagram"""
 
 ACCOUNT_ID = os.getenv("INSTAGRAM_ACCOUNT_ID", "17841442055997951")
-ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN", "IGAAO3WRMmXXFBZAGFDNEg3ckdlcWZArSU04SmJybFBQR0htOERQMmw5dTZAmOXNDYk1WY1pabFBFUnp3VGpKVGxuQmJCaUdrX0MwV2JzOVR5SnRpZAm1kWkxCemJPM2lGMDJWbDZAsVkJtS0hQX2R6RzJpbHd5Q3FKTHJJeFJIWDNzQQZDZD")
+ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN")
 
 if __name__ == "__main__":
     print("[Reels Test] 1. 릴스 9:16 비디오 생성 중...")
